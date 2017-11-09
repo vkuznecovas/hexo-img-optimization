@@ -4,8 +4,6 @@ const walk = require('walk');
 const chalk = require('chalk');
 const im = require('imagemagick');
 
-hexo.extend.console.register('img', imgFunc);
-
 const imgFunc = (args, callback) => {
   const log = this.log;
   const files = [];
@@ -36,3 +34,5 @@ const imgFunc = (args, callback) => {
     log.info(`[${logPrefix}] Processing finished after ${chalk.cyan(end - start)} ms`);
   });
 }
+
+hexo.extend.console.register('img', imgFunc);
