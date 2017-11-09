@@ -46,9 +46,7 @@ function imgFunc (args, callback){
   const files = [];
   const start = new Date();
   log.info(`[${chalk.cyan('IMG')}] Doing image magic...`);
-
   const walker = walk.walk('public', { followLinks: false, filters: config.filteredDirectories });
-
   walker.on('file', (root, stat, next) => {
     const file = `${root}/${stat.name}`;
     // exclude any ignored files
