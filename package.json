@@ -1,16 +1,29 @@
 {
   "name": "hexo-img-optimization",
   "version": "1.0.0",
-  "description": "",
+  "description": "A hexo plugin to manipulate images for your blog.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Viktoras Kuznecovas <viktoras@kuznecovas.net>",
+  "license": "MIT",
   "dependencies": {
     "chalk": "2.3.0",
     "imagemagick": "0.1.3",
     "walk": "2.3.9"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vkuznecovas/hexo-img-optimization/"
+  },
+  "bugs": {
+    "url": "https://github.com/vkuznecovas/hexo-img-optimization/issues/"
+  },
+  "keywords": [
+    "hexo",
+    "imagemagick",
+    "img-optimization",
+    "hexo-img-optimization"
+  ]
 }

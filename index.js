@@ -3,7 +3,7 @@ const path = require('path');
 const walk = require('walk');
 const chalk = require('chalk');
 const im = require('imagemagick');
-const config = require('./config')(hexo.config.img_optimizer);
+const config = require('./config')(hexo.config.img_optimization);
 
 // checks if the filename is excluded or not
 const isFileExcluded = (file, config) => {
@@ -22,7 +22,7 @@ const convert = (file, config, log, callback) => {
       log.error(`[${chalk.red('IMG')}] Proccessing failed for ${file}`);
       throw err
     }
-    log.info(`[${chalk.cyan('IMG')}] Completed processing: ${file}`);
+    log.info(`[${chalk.cyan('IMG')}] Completed processing: ${chalk.blue(file)}`);
     callback();
   })
 }
