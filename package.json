@@ -1,6 +1,6 @@
 {
   "name": "hexo-img-optimization",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A hexo plugin to manipulate images for your blog.",
   "main": "index.js",
   "scripts": {
