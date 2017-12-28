@@ -11,6 +11,28 @@ const isFileExcluded = (file, config) => {
   return config.exclude.indexOf(base) > -1
 }
 
+
+const thumbnailify = (i, file, config, log, cb) => {
+  let keys = Object.keys(config.thumbnails)
+  if (i >= keys.length) {
+    cb()
+    return;
+  }
+  const key = keys[i]
+  const newParams = config.thumbnails[key].split(" ")
+  const path = file.substring(0, file.lastIndexOf("/") + 1) 
+  const filename = file.substring(file.lastIndexOf("/") + 1)
+  const newFilename = path + key + "_" + filename
+  im.convert([file, ...newParams, newFilename], (err, out) => {
+    if (err) {
+      log.error(`[${chalk.red('IMG')}] Proccessing failed for ${newFilename}`);
+      throw err
+    }
+    log.info(`[${chalk.cyan('IMG')}] Completed processing: ${chalk.blue(newFilename)}`);
+    thumbnailify(i + 1, file, config, log, cb)
+  })
+}
+
 const convert = (file, config, log, callback) => {
   const extName = path.extname(file).substr(1)
   let params = config[extName].params;
@@ -22,8 +44,16 @@ const convert = (file, config, log, callback) => {
       log.error(`[${chalk.red('IMG')}] Proccessing failed for ${file}`);
       throw err
     }
-    log.info(`[${chalk.cyan('IMG')}] Completed processing: ${chalk.blue(file)}`);
-    callback();
+    if (Object.keys(config.thumbnails).length > 0) {
+      thumbnailify(0, file, config, log, () => {
+        log.info(`[${chalk.cyan('IMG')}] Completed processing: ${chalk.blue(file)}`);
+        callback();
+      })
+    } else {
+      log.info(`[${chalk.cyan('IMG')}] Completed processing: ${chalk.blue(file)}`);
+      callback();
+    }
+    
   })
 }
 

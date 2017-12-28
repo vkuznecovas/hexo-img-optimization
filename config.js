@@ -23,7 +23,8 @@ const load = (hexoConfig) => {
       params: hexoConfig && hexoConfig.png && hexoConfig.png.params ? hexoConfig.png.params.split(" ") : [],
     },
     exclude: hexoConfig && hexoConfig.exclude ? hexoConfig.exclude.filter(filterFiles) : [],
-    filteredDirectories: hexoConfig && hexoConfig.exclude ? hexoConfig.exclude.filter(filterDirectories).map(removeLastSymbol) : []
+    filteredDirectories: hexoConfig && hexoConfig.exclude ? hexoConfig.exclude.filter(filterDirectories).map(removeLastSymbol) : [],
+    thumbnails: hexoConfig && hexoConfig.thumbnails ? hexoConfig.thumbnails : {},
   }
 }
 module.exports = load
