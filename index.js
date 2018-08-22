@@ -14,7 +14,7 @@ const isFileExcluded = (file, config) => {
 
 const thumbnailify = (i, file, config, log, cb) => {
   const extName = path.extname(file).substr(1)
-  let params = config[extName].thumb && config[extName].thumb.length > 0 ? config.default_thumb : config.default_thumb
+  let params = config[extName].thumb && config[extName].thumb.length > 0 ? config[extName].thumb : config.default_thumb
   const newFilename = file.replace("."+extName, "_thumb."+extName)
   im.convert([file, ...params, newFilename], (err, out) => {
     if (err) {
@@ -32,24 +32,30 @@ const convert = (file, config, log, callback) => {
   if (params.length == 0) {
     params = config.defaultParams
   }
-  im.convert([file, ...params, file], (err, out) => {
-    if (err) {
-      log.error(`[${chalk.red('IMG')}] Proccessing failed for ${file}`);
-      throw err
-    }
-    var needsDefaultThumb = config.default_thumb && config.default_thumb.length > 0;
-    var needsSpecificThumb = config[extName].thumb && config[extName].thumb.length > 0;
-    if (needsDefaultThumb || needsSpecificThumb) {
-      thumbnailify(0, file, config, log, () => {
-        log.info(`[${chalk.cyan('IMG')}] Completed processing: ${chalk.blue(file)}`);
-        callback();
+  var needsDefaultThumb = config.default_thumb && config.default_thumb.length > 0;
+  var needsSpecificThumb = config[extName].thumb && config[extName].thumb.length > 0;
+  if (needsDefaultThumb || needsSpecificThumb) {
+    thumbnailify(0, file, config, log, () => {
+      im.convert([file, ...params, file], (err, out) => {
+        if (err) {
+          log.error(`[${chalk.red('IMG')}] Proccessing failed for ${file}`);
+          throw err
+        }
+          log.info(`[${chalk.cyan('IMG')}] Completed processing: ${chalk.blue(file)}`);
+          callback();
       })
-    } else {
+    })
+  } else {
+    im.convert([file, ...params, file], (err, out) => {
+      if (err) {
+        log.error(`[${chalk.red('IMG')}] Proccessing failed for ${file}`);
+        throw err
+      }
       log.info(`[${chalk.cyan('IMG')}] Completed processing: ${chalk.blue(file)}`);
       callback();
-    }
-    
-  })
+    })
+  }
+  
 }
 
 const shouldProcessFile = (file, config) => {
