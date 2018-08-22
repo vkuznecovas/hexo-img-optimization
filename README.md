@@ -27,14 +27,12 @@ img_optimization: # root of configuration for image optimization
     params: -resize 760000@ # parameter string to pass to imagemagick's convert function
   png: # jpg/png/jpeg all have the same fields and can be configured independently
     enabled: false
+    thumb: -resize 680x680> -strip -quality 82 -alpha Remove
   jpeg:
     enabled: false
   # these parameters will be used for any file types that do not have a params parameter defined in config. You can override these to your own preferred defaults.
   default_params: -resize 760000@ -filter Triangle -define filter:support=2 -unsharp 0.25x0.25+8+0.065 -dither None -posterize 136 -quality 85 -define jpeg:fancy-upsampling=off -interlace none -colorspace sRGB -strip -define png:compression-filter=5 -define png:compression-level=9 -define png:compression-strategy=1 -define png:exclude-chunk=all
-  thumbnails:
-    small_thumb: -resize 480x400^> -sampling-factor 4:2:0 -strip -quality 85 -interlace JPEG -colorspace RGB 
-    big_thumb: -resize 700x600^> -sampling-factor 4:2:0 -strip -quality 85 -interlace JPEG -colorspace RGB 
-
+  default_thumb: -resize 680x680> -sampling-factor 4:2:0 -strip -quality 85 -interlace JPEG -colorspace RGB 
 ```
 
 
