@@ -13,23 +13,16 @@ const isFileExcluded = (file, config) => {
 
 
 const thumbnailify = (i, file, config, log, cb) => {
-  let keys = Object.keys(config.thumbnails)
-  if (i >= keys.length) {
-    cb()
-    return;
-  }
-  const key = keys[i]
-  const newParams = config.thumbnails[key].split(" ")
-  const path = file.substring(0, file.lastIndexOf("/") + 1) 
-  const filename = file.substring(file.lastIndexOf("/") + 1)
-  const newFilename = path + key + "_" + filename
-  im.convert([file, ...newParams, newFilename], (err, out) => {
+  const extName = path.extname(file).substr(1)
+  let params = config[extName].thumb && config[extName].thumb.length > 0 ? config.default_thumb : config.default_thumb
+  const newFilename = file.replace("."+extName, "_thumb."+extName)
+  im.convert([file, ...params, newFilename], (err, out) => {
     if (err) {
-      log.error(`[${chalk.red('IMG')}] Proccessing failed for ${newFilename}`);
+      log.error(`[${chalk.red('IMG')}] Proccessing thumbnail failed for ${newFilename}`);
       throw err
     }
-    log.info(`[${chalk.cyan('IMG')}] Completed processing: ${chalk.blue(newFilename)}`);
-    thumbnailify(i + 1, file, config, log, cb)
+    log.info(`[${chalk.cyan('IMG')}] Completed thubmnail processing: ${chalk.blue(newFilename)}`);
+    cb();
   })
 }
 
@@ -44,7 +37,9 @@ const convert = (file, config, log, callback) => {
       log.error(`[${chalk.red('IMG')}] Proccessing failed for ${file}`);
       throw err
     }
-    if (Object.keys(config.thumbnails).length > 0) {
+    var needsDefaultThumb = config.default_thumb && config.default_thumb.length > 0;
+    var needsSpecificThumb = config[extName].thumb && config[extName].thumb.length > 0;
+    if (needsDefaultThumb || needsSpecificThumb) {
       thumbnailify(0, file, config, log, () => {
         log.info(`[${chalk.cyan('IMG')}] Completed processing: ${chalk.blue(file)}`);
         callback();

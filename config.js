@@ -13,18 +13,21 @@ const load = (hexoConfig) => {
     jpg: {
       enabled: decideEnabled(hexoConfig && hexoConfig.jpg && hexoConfig.jpg && hexoConfig.jpg.enabled),
       params: hexoConfig && hexoConfig.jpg && hexoConfig.jpg.params ? hexoConfig.jpg.params.split(" ") : [],
+      thumb: hexoConfig && hexoConfig.jpg && hexoConfig.jpg.thumb ? hexoConfig.jpg.thumb.split(" ") : [],
     },
     jpeg: {
       enabled: decideEnabled(hexoConfig && hexoConfig.jpeg && hexoConfig.jpeg && hexoConfig.jpeg.enabled),
       params: hexoConfig && hexoConfig.jpeg && hexoConfig.jpeg.params ? hexoConfig.jpeg.params.split(" ") : [],
+      thumb: hexoConfig && hexoConfig.jpeg && hexoConfig.jpeg.thumb ? hexoConfig.jpeg.thumb.split(" ") : [],
     },
     png: {
       enabled: decideEnabled(hexoConfig && hexoConfig.png && hexoConfig.png && hexoConfig.png.enabled),
       params: hexoConfig && hexoConfig.png && hexoConfig.png.params ? hexoConfig.png.params.split(" ") : [],
+      thumb: hexoConfig && hexoConfig.png && hexoConfig.png.thumb ? hexoConfig.png.thumb.split(" ") : [],
     },
     exclude: hexoConfig && hexoConfig.exclude ? hexoConfig.exclude.filter(filterFiles) : [],
     filteredDirectories: hexoConfig && hexoConfig.exclude ? hexoConfig.exclude.filter(filterDirectories).map(removeLastSymbol) : [],
-    thumbnails: hexoConfig && hexoConfig.thumbnails ? hexoConfig.thumbnails : {},
+    default_thumb: hexoConfig && hexoConfig.default_thumb ? hexoConfig.default_thumb.split(" ") : [],
   }
 }
 module.exports = load
